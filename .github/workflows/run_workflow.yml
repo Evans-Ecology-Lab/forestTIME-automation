@@ -73,28 +73,30 @@ jobs:
             any::cffr
             any::lubridate
 
-      - name: Create Tag
-        run: |
-          RELEASE="$(date +"%Y-%m-%dT%H:%M:%S")"
-          echo "RELEASE=$RELEASE" >> $GITHUB_ENV
-          git tag -a "$RELEASE" -m "Automatic release $RELEASE"
-          git push origin "$RELEASE"
-
       - name: Update metadata
-        run: Rscript update_metadata.R
-      
+        run: |
+          Rscript update_metadata.R
+          echo "RELEASE=$RELEASE" >> $GITHUB_ENV
+
       # commit changes to metadata
       - uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Update dataset version and release date
+      
+      - name: Create Tag
+        run: |
+          git tag -a "$RELEASE" -m "Automatic release $RELEASE"
+          git push origin $RELEASE
+        env:
+          RELEASE = ${{ env.RELEASE }}
 
       # Create a GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE }}
-          name: "Automatic Release ${{ env.RELEASE }}"
-          body: "Monthly release of annualized FIADB tables"
+          name: "Automatic Release ${{ env.RELEASE }}" #TODO different title if workflow_dispatch
+          body: "Monthly release of annualized FIADB tables" #TODO different message if workflow_dispatch
           artifacts: fia/parquet/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
