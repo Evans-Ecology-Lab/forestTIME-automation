@@ -33,7 +33,6 @@ jobs:
             any::purrr
             any::nanoparquet
             any::fs
-            any::cli
             github::Evans-Ecology-Lab/forestTIME-builder
       
       - name: Generate state parquet

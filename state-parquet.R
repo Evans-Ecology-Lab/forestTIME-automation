@@ -3,6 +3,8 @@ state = Sys.getenv("STATE", unset = "RI") #use RI for testing because it is smal
 library(forestTIME.builder) #TODO change to library(forestTIME)
 library(dplyr)
 library(purrr)
+library(nanoparquet)
+library(fs)
 
 # Data Download
 fia_download(states = state, keep_zip = FALSE)
@@ -67,8 +69,6 @@ if (nrow(data_midpt) <= max_rows) {
 }
 
 # Write out to parquet
-cli::cli_progress_step("Writing results")
-
 fs::dir_create("fia/parquet")
 if (do_both) {
   nanoparquet::write_parquet(
