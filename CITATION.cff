@@ -1,55 +1,43 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+ 
 cff-version: 1.2.0
-title: '`forestTIME` annualized FIADB carbon and biomass estimates'
-abstract: >-
-  These datasets are produced from the Forest Inventory and Analysis database 
-  and interpolated values produced by the `forestTIME` R package. For a more 
-  detailed description of the methods used, see the documentation for the 
-  `forestTIME` package.
-message: >-
-  If you use this dataset, please cite it using the metadata
-  from this file.
+message: If you use this dataset, please cite it using the metadata from this file.
 type: dataset
-authors:
-  - given-names: Renata
-    family-names: Diaz
-    affiliation: >-
-      University of Arizona, Communications & Cyber
-      Technology
-    orcid: 'https://orcid.org/0000-0003-0803-4734'
-  - given-names: Eric R.
-    family-names: Scott
-    email: ericrscott@arizona.edu
-    affiliation: >-
-      University of Arizona, Communications & Cyber
-      Technology
-    orcid: 'https://orcid.org/0000-0002-7430-7879'
-  - given-names: Dani
-    family-names: Steinberg
-    affiliation: >-
-      University of Arizona, School of Natural Resources &
-      The Environment
-    orcid: 'https://orcid.org/0000-0002-3695-3837'
-  - given-names: Kristina
-    family-names: Riemer
-    affiliation: >-
-      University of Arizona, Communications & Cyber
-      Technology
-    orcid: 'https://orcid.org/0000-0003-3802-3331'
-  - given-names: Margaret
-    family-names: Evans
-    affiliation: >-
-      University of Arizona, Laboratory of Tree Ring
-      Research
-repository-code: 'https://github.com/mekevans/forestTIME-automation'
-keywords:
-  - FIA
-  - forest inventory and analysis
-  - carbon estimation
-  - biomass estimation
 license: CC0-1.0
-version: '2025-08-25T10:53:25'
+title: '`forestTIME` annualized FIADB carbon and biomass estimates'
+version: 2025-08-25T11:01:09
+abstract: These datasets are produced from the Forest Inventory and Analysis database
+  and interpolated values produced by the `forestTIME` R package. For a more detailed
+  description of the methods used, see the documentation for the `forestTIME` package.
+authors:
+- given-names: Renata
+  family-names: Diaz
+  affiliation: University of Arizona, Communications & Cyber Technology
+  orcid: https://orcid.org/0000-0003-0803-4734
+- given-names: Eric R.
+  family-names: Scott
+  email: ericrscott@arizona.edu
+  affiliation: University of Arizona, Communications & Cyber Technology
+  orcid: https://orcid.org/0000-0002-7430-7879
+- given-names: Dani
+  family-names: Steinberg
+  affiliation: University of Arizona, School of Natural Resources & The Environment
+  orcid: https://orcid.org/0000-0002-3695-3837
+- given-names: Kristina
+  family-names: Riemer
+  affiliation: University of Arizona, Communications & Cyber Technology
+  orcid: https://orcid.org/0000-0003-3802-3331
+- given-names: Margaret
+  family-names: Evans
+  affiliation: University of Arizona, Laboratory of Tree Ring Research
+repository-code: https://github.com/mekevans/forestTIME-automation
 date-released: '2025-08-25'
+keywords:
+- FIA
+- forest inventory and analysis
+- carbon estimation
+- biomass estimation
 
