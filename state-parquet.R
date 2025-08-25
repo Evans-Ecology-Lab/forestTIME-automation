@@ -73,13 +73,17 @@ fs::dir_create("fia/parquet")
 if (do_both) {
   nanoparquet::write_parquet(
     data_mortyr,
-    file = glue::glue("fia/parquet/{state}_mortyr.parquet")
+    file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
+    compression = "zstd",
+    options = parquet_options(compression_level = 10)
   )
 }
 
 nanoparquet::write_parquet(
   data_midpt,
-  glue::glue("fia/parquet/{state}_midpt.parquet")
+  glue::glue("fia/parquet/{state}_midpt.parquet"),
+  compression = "zstd",
+  options = parquet_options(compression_level = 10)
 )
 
 #write to CSV
