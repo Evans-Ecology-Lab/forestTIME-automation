@@ -81,12 +81,14 @@ jobs:
       #     git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: 'Get previous release tag'
         run: |
-          echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
+          echo "PREV_RELEASE='$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')'" >> $GITHUB_ENV
 
       - name: Update metadata
         run: |
           Rscript update_metadata.R
           echo "RELEASE=$RELEASE" >> $GITHUB_ENV
+        env:
+          PREV_RELEASE: ${{ env.PREV_RELEASE }}
 
       # commit changes to metadata
       - uses: stefanzweifel/git-auto-commit-action@v6
