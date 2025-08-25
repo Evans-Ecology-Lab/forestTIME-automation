@@ -1,7 +1,12 @@
 on:
   schedule:
     - cron: 0 0 1 * * # midnight on 1st of month
-  workflow_dispatch:
+  workflow_dispatch: 
+    inputs:
+      release:
+        description: "Make a new GitHub/Zenodo release with this run?"
+        required: true
+        type: boolean
 
 name: run_workflow.yml
 
@@ -39,23 +44,14 @@ jobs:
         with:
           name: ${{ matrix.state }}
           path: fia/parquet/*
-  #TODO update zenodo.json and/or CITATION.cff
-  combine:
-    runs-on: ubuntu-latest
-    needs: states
-    steps:
-      - uses: actions/checkout@v4
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: fia/parquet
-          merge-multiple: true
-      - name: Create zip file
-        run: zip -r all_states.zip fia/parquet
-        #TODO: add artifact to GitHub release
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: all_states.zip
-          path: all_states.zip
-        #TODO: make github release with timestamp
+
+    # release:
+    #   # only happens if schedule or workflow_dispatch with release=TRUE
+    #   runs-on: ubuntu-latest
+    #   needs: states
+    #   steps:
+    #     - name: Update metadata
+    #     # Update zenodo.json and/or CITATION.cff
+    #     - name: Create release
+    #     # Increment version, add artifacts to release, possibly as a single zip file
+    #     # Make release with timestamp as version
