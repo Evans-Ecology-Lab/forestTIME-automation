@@ -2,7 +2,7 @@ library(cffr)
 library(lubridate)
 cff <- cff_read("CITATION.cff")
 
-prev_release <- Sys.getenv("PREV_VERSION")
+prev_release <- Sys.getenv("PREV_RELEASE")
 
 if (prev_release == today()) {
   release <- paste(today(), 1, sep = "_")

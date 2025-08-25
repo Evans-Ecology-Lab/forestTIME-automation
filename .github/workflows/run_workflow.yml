@@ -79,18 +79,14 @@ jobs:
       #   run: |
       #     git config user.name "github-actions[bot]"
       #     git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
-            prefix: "202"
+      - name: 'Get previous release tag'
+        run: |
+          echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
 
       - name: Update metadata
         run: |
           Rscript update_metadata.R
           echo "RELEASE=$RELEASE" >> $GITHUB_ENV
-        env: 
-          PREV_VERSION: ${{ steps.previoustag.outputs.tag }}
 
       # commit changes to metadata
       - uses: stefanzweifel/git-auto-commit-action@v6
