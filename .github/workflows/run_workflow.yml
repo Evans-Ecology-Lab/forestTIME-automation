@@ -82,7 +82,8 @@ jobs:
       - name: 'Get previous release tag'
         run: |
           echo "PREV_RELEASE='$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')'" >> $GITHUB_ENV
-
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update metadata
         run: |
           Rscript update_metadata.R
