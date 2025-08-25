@@ -73,6 +73,13 @@ jobs:
             any::cffr
             any::lubridate
 
+      - name: Create Tag
+        run: |
+          RELEASE="$(date +"%Y-%m-%dT%H:%M:%S")"
+          echo "RELEASE=$RELEASE" >> $GITHUB_ENV
+          git tag -a "$RELEASE" -m "Automatic release $RELEASE"
+          git push origin "$RELEASE"
+
       - name: Update metadata
         run: Rscript update_metadata.R
       
@@ -81,6 +88,12 @@ jobs:
         with:
           commit_message: Update dataset version and release date
 
-    #     - name: Create release
-    #     # Increment version, add artifacts to release, possibly as a single zip file
-    #     # Make release with timestamp as version
+      # Create a GitHub Release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE }}
+          name: "Automatic Release ${{ env.RELEASE }}"
+          body: "Monthly release of annualized FIADB tables"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
