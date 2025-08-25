@@ -72,7 +72,12 @@ jobs:
           packages: |
             any::cffr
             any::lubridate
-
+      # Set up Git user
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
       - name: Update metadata
         run: |
           Rscript update_metadata.R
