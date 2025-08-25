@@ -47,17 +47,17 @@ jobs:
 
   release:
   # only happens if schedule or workflow_dispatch with release=TRUE
-    if: (${{ inputs.release }} && ${{ github.event_name == 'workflow_dispatch'}}) || ${{ github.event_name == 'schedule'}}
+    if: ${{ (inputs.release && github.event_name == 'workflow_dispatch') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     needs: states
     steps:
       #debug:
-      - run: |
-          echo "make release: $RELEASE"
-          echo "event name: $EVENT"
-        env:
-          RELEASE: ${{ inputs.release }}
-          EVENT: ${{ github.event_name}}
+      # - run: |
+      #     echo "make release: $RELEASE"
+      #     echo "event name: $EVENT"
+      #   env:
+      #     RELEASE: ${{ inputs.release }}
+      #     EVENT: ${{ github.event_name}}
       # end debug
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
