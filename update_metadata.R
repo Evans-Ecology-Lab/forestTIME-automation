@@ -1,9 +1,8 @@
 library(cffr)
 library(lubridate)
 cff <- cff_read("CITATION.cff")
-# get previous release from GitHub
-prev_release <- system("git describe --abbrev=0 --tags", intern = TRUE)
-# prev_release <- "2024-08-25_1"
+
+prev_release <- Sys.getenv(PREV_VERSION)
 
 if (prev_release == today()) {
   release <- paste(today(), 1, sep = "_")

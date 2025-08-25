@@ -75,17 +75,20 @@ jobs:
             any::cffr
             any::lubridate
       # Set up Git user
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+      # - name: Configure Git
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
       - name: Update metadata
         run: |
           Rscript update_metadata.R
           echo "RELEASE=$RELEASE" >> $GITHUB_ENV
         env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREV_VERSION: ${{ steps.previoustag.outputs.tag }}
 
       # commit changes to metadata
       - uses: stefanzweifel/git-auto-commit-action@v6
