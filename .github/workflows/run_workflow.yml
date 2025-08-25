@@ -95,5 +95,6 @@ jobs:
           tag_name: ${{ env.RELEASE }}
           name: "Automatic Release ${{ env.RELEASE }}"
           body: "Monthly release of annualized FIADB tables"
+          artifacts: fia/parquet/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
