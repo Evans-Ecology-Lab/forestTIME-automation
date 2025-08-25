@@ -45,14 +45,14 @@ jobs:
           name: ${{ matrix.state }}
           path: fia/parquet/*
 
-    release:
-    #   # only happens if schedule or workflow_dispatch with release=TRUE
-      if: (${{ inputs.release }} && ${{ github.event_name == 'workflow_dispatch'}}) || ${{ github.event_name == 'schedule'}}
-      runs-on: ubuntu-latest
-      needs: states
-      steps:
-        - run: |
-            echo "Making a release now!"
+  release:
+  # only happens if schedule or workflow_dispatch with release=TRUE
+    if: (${{ inputs.release }} && ${{ github.event_name == 'workflow_dispatch'}}) || ${{ github.event_name == 'schedule'}}
+    runs-on: ubuntu-latest
+    needs: states
+    steps:
+      - run: |
+          echo "Making a release now!"
 
     #     - name: Update metadata
     #     # Update zenodo.json and/or CITATION.cff
