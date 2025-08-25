@@ -22,13 +22,13 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages:
-            - any::dplyr
-            - any::purrr
-            - any::nanoparquet
-            - any::fs
-            - any::cli
-            - github::Evans-Ecology-Lab/forestTIME-builder
+          extra-packages: |
+            any::dplyr
+            any::purrr
+            any::nanoparquet
+            any::fs
+            any::cli
+            github::Evans-Ecology-Lab/forestTIME-builder
       
       - name: Generate state parquet
         run: Rscript state-parquet.R
