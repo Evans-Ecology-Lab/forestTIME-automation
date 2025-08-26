@@ -16,4 +16,6 @@ cff$version <- release
 
 cff_write(cff)
 
-Sys.setenv(RELEASE = release)
+# Sys.setenv(RELEASE = release)
+
+system('echo "RELEASE=$RELEASE" >> $GITHUB_ENV')
