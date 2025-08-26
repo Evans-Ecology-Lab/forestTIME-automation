@@ -81,7 +81,7 @@ jobs:
       #     git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: 'Get previous release tag'
         run: |
-          echo "PREV_RELEASE='$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')'" >> $GITHUB_ENV
+          echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
