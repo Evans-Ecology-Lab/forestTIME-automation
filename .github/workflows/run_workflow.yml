@@ -56,7 +56,7 @@ jobs:
       contents: write #allow writing commits
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -79,18 +79,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: 'Get previous release tag'
-        run: |
-          echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: 'Get previous release tag'
+      #   run: |
+      #     echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update metadata
         run: |
           Rscript update_metadata.R
           echo ${{ env.RELEASE }}
-        env:
-          PREV_RELEASE: ${{ env.PREV_RELEASE }}
+        # env:
+        #   PREV_RELEASE: ${{ env.PREV_RELEASE }}
 
       # commit changes to metadata
       - uses: stefanzweifel/git-auto-commit-action@v6

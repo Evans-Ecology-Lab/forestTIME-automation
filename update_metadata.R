@@ -2,7 +2,10 @@ library(cffr)
 library(lubridate)
 cff <- cff_read("CITATION.cff")
 
-prev_release <- Sys.getenv("PREV_RELEASE")
+# prev_release <- Sys.getenv("PREV_RELEASE")
+
+# get current version from CITATION.cff
+prev_release <- cff$version
 
 #possibilitiies
 # prev_release <- as.character(today()) #one prev release today
