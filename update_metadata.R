@@ -19,6 +19,7 @@ if (grepl("_\\d+$", prev_release)) {
   num <- as.integer(split[[2]])
 } else {
   prev_date <- ymd(prev_release)
+  num <- 0L
 }
 
 if (prev_date != today()) {
@@ -26,6 +27,7 @@ if (prev_date != today()) {
 } else {
   release <- paste(today(), num + 1L, sep = "_")
 }
+# release
 
 cff$`date-released` <- format_ISO8601(today())
 cff$version <- release
