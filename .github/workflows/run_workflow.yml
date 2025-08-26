@@ -111,6 +111,6 @@ jobs:
           tag_name: ${{ env.RELEASE }}
           name: "Automatic Release ${{ env.RELEASE }}" #TODO different title if workflow_dispatch
           body: "Monthly release of annualized FIADB tables" #TODO different message if workflow_dispatch
-          artifacts: fia/parquet/*
+          files: fia/parquet/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
