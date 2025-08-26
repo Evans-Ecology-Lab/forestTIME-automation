@@ -19,7 +19,7 @@ if (grepl("_\\d+$", prev_release)) {
 }
 
 if (prev_date != today()) {
-  release <- today()
+  release <- as.character(today())
 } else {
   release <- paste(today(), num + 1L, sep = "_")
 }
