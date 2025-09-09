@@ -8,7 +8,7 @@ message: If you use this dataset, please cite it using the metadata from this fi
 type: dataset
 license: CC0-1.0
 title: '`forestTIME` annualized FIADB carbon and biomass estimates'
-version: '2025-09-01'
+version: '2025-09-09'
 abstract: These datasets are produced from the Forest Inventory and Analysis database
   and interpolated values produced by the `forestTIME` R package. For a more detailed
   description of the methods used, see the documentation for the `forestTIME` package.
@@ -34,7 +34,7 @@ authors:
   family-names: Evans
   affiliation: University of Arizona, Laboratory of Tree Ring Research
 repository-code: https://github.com/mekevans/forestTIME-automation
-date-released: '2025-09-01'
+date-released: '2025-09-09'
 keywords:
 - FIA
 - forest inventory and analysis
