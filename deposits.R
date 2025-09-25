@@ -11,6 +11,8 @@ metadata <- list(
   description = "These datasets are produced from the Forest Inventory and Analysis database
   and interpolated values produced by the `forestTIME` R package. For a more detailed
   description of the methods used, see the documentation for the `forestTIME` package.",
+  # type = "dataset",
+  format = "dataset",
   creator = list(
     list(
       name = "Eric R. Scott",
@@ -60,7 +62,11 @@ metadata <- list(
 cli$deposit_fill_metadata(metadata)
 cli$metadata
 
-cli$deposit_new()
+cli$deposit_new(prereserve_doi = TRUE)
 # cli$deposit_add_resource("fia/csv/")
-cli$deposit_upload_file("fia/csv/")
+cli$deposit_upload_file("fia/csv/", overwrite = TRUE, )
+# httr2::with_verbosity(
 cli$deposit_publish()
+# )
+
+cli$deposit_version()
