@@ -35,7 +35,7 @@ jobs:
             any::purrr
             any::nanoparquet
             any::fs
-            github::Evans-Ecology-Lab/forestTIME-builder
+            github::Evans-Ecology-Lab/forestTIME
       
       - name: Generate state parquet
         run: Rscript state-parquet.R

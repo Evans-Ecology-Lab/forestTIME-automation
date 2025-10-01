@@ -1,6 +1,6 @@
 state = Sys.getenv("STATE", unset = "RI") #use RI for testing because it is small
 
-library(forestTIME.builder) #TODO change to library(forestTIME)
+library(forestTIME)
 library(dplyr)
 library(purrr)
 library(nanoparquet)
