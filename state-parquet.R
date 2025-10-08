@@ -75,7 +75,7 @@ if (do_both) {
     data_mortyr,
     file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
     compression = "zstd",
-    options = parquet_options(compression_level = 15)
+    options = parquet_options(compression_level = Inf)
   )
 }
 
@@ -83,19 +83,19 @@ nanoparquet::write_parquet(
   data_midpt,
   glue::glue("fia/parquet/{state}_midpt.parquet"),
   compression = "zstd",
-  options = parquet_options(compression_level = 15)
+  options = parquet_options(compression_level = Inf)
 )
 
-#write to CSV
+# # write to CSV
 # fs::dir_create("fia/csv")
 # if (do_both) {
 #   readr::write_csv(
 #     data_mortyr,
-#     file = glue::glue("fia/csv/{state}_mortyr.CSV")
+#     file = glue::glue("fia/csv/{tolower(state)}-mortyr.csv")
 #   )
 # }
 
 # readr::write_csv(
 #   data_midpt,
-#   glue::glue("fia/csv/{state}_midpt.CSV")
+#   glue::glue("fia/csv/{tolower(state)}-midpt.csv")
 # )
