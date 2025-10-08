@@ -81,4 +81,4 @@ jobs:
       - name: Create new version and upload to Zenodo
         run: Rscript zenodo-api.R
         env:
-          ZENODO_SANDBOX_TOKEN: ${{ ZENODO_SANDBOX_TOKEN }}
+          ZENODO_SANDBOX_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
