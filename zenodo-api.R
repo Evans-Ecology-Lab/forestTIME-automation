@@ -48,14 +48,8 @@ base_req |>
   req_body_json(data = list(metadata = new_metadata)) |>
   req_perform()
 
-# 5. edit version metadata (new publication date)
 
-base_req |>
-  req_url_path_append(new_version_id) |>
-  req_method("PUT") |>
-  req_body_json(metadata)
-
-# 6. list files
+# 4. list files
 
 file_ids <- base_req |>
   req_url_path_append(new_version_id, "files") |>
@@ -63,7 +57,7 @@ file_ids <- base_req |>
   resp_body_json() |>
   map_chr("id")
 
-# 7. delete files
+# 5. delete files
 
 map(file_ids, \(x) {
   base_req |>
@@ -72,9 +66,9 @@ map(file_ids, \(x) {
 }) |>
   req_perform_parallel()
 
-# 8. upload new files (there's a more efficient way to do this with the s3 bucket link if I recall correctly)
+# 6. upload new files (there's a more efficient way to do this with the s3 bucket link if I recall correctly)
 
-paths <- fs::dir_ls("fia/csv")
+paths <- fs::dir_ls("fia/parquet")
 map(paths, \(file) {
   base_req |>
     req_url_path_append(new_version_id, "files") |>
@@ -86,8 +80,8 @@ map(paths, \(file) {
 }) |>
   req_perform_parallel()
 
-# 9. publish release
-
+# 7. publish release
+# TODO: consider making this manual so Margaret has to double-check the release
 base_req |>
   req_url_path_append(new_version_id, "actions", "publish") |>
   req_method("POST") |>

@@ -52,17 +52,7 @@ jobs:
     if: ${{ (inputs.release && github.event_name == 'workflow_dispatch') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     needs: states
-    permissions:
-      contents: write #allow writing commits
     steps:
-      #debug:
-      # - run: |
-      #     echo "make release: $RELEASE"
-      #     echo "event name: $EVENT"
-      #   env:
-      #     RELEASE: ${{ inputs.release }}
-      #     EVENT: ${{ github.event_name}}
-      # end debug
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -72,45 +62,14 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            any::cffr
-            any::lubridate
-      # Set up Git user
-      # - name: Configure Git
-      #   run: |
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: 'Get previous release tag'
-        run: |
-          echo "PREV_RELEASE=$(gh release list --json tagName,isLatest --jq '.[] | select(.isLatest)|.tagName')" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update metadata
-        run: |
-          Rscript update_metadata.R
-          echo ${{ env.RELEASE }}
-        env:
-          PREV_RELEASE: ${{ env.PREV_RELEASE }}
-
-      # commit changes to metadata
-      - uses: stefanzweifel/git-auto-commit-action@v6
+            any::httr2
+            any::purrr
+            any::fs
+      
+      # get artifacts from prev step
+      - uses: actions/download-artifact@v5
         with:
-          commit_message: Update dataset version and release date
-        
-      - name: Create Tag
-        run: |
-          git tag -a "$RELEASE" -m "Automatic release $RELEASE"
-          git push origin $RELEASE
-        env:
-          RELEASE: ${{ env.RELEASE }}
+          path: "fia/parquet/"
 
-      # Create a GitHub Release
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ env.RELEASE }}
-          name: "Automatic Release ${{ env.RELEASE }}" #TODO different title if workflow_dispatch
-          body: "Monthly release of annualized FIADB tables" #TODO different message if workflow_dispatch
-          artifacts: fia/parquet/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create new version and upload to Zenodo
+        run: Rscript zenodo-api.R
