@@ -64,19 +64,27 @@ map(file_ids, \(x) {
 }) |>
   req_perform_parallel()
 
-# 6. upload new files (there's a more efficient way to do this with the s3 bucket link if I recall correctly)
+# 6. upload new files (using new file upload API)
 
+# First get the bucket link
+info <- base_req |>
+  req_url_path_append(new_version_id) |>
+  req_perform() |>
+  resp_body_json()
+bucket <- info$links$bucket
 paths <- fs::dir_ls("fia/parquet")
-map(paths, \(file) {
-  base_req |>
-    req_url_path_append(new_version_id, "files") |>
-    req_method("POST") |>
-    req_body_multipart(
-      name = fs::path_file(file),
-      file = curl::form_file(file)
-    )
-}) |>
-  req_perform_parallel()
+
+# Then upload all the files
+upload_reqs <- map(paths, \(path) {
+  request(bucket) |>
+    req_url_path_append(path_file(path)) |>
+    req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN")) |>
+    req_method("PUT") |>
+    req_body_file(path)
+})
+
+# req_perform_parallel() doesn't work for some reason
+req_perform_sequential(upload_reqs)
 
 # 7. publish release
 # TODO: consider making this manual so Margaret has to double-check the release
