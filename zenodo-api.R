@@ -13,8 +13,7 @@ resp <- base_req |>
   req_url_path_append(global_id) |>
   req_perform()
 record <- resp_body_json(resp)
-latest <- record$links$latest |>
-  request() |>
+latest <- request(record$links$latest) |>
   req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN")) |>
   req_perform() |>
   resp_body_json()
@@ -47,7 +46,6 @@ base_req |>
   req_method("PUT") |>
   req_body_json(data = list(metadata = new_metadata)) |>
   req_perform()
-
 
 # 4. list files
 
