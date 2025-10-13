@@ -49,6 +49,7 @@ if (nrow(data_midpt) <= max_rows) {
   #chunk into a list of data frames with at most `max_rows` rows
   n_groups <- ceiling(nrow(data_midpt) / max_rows)
 
+  # Arranging by split ID components and YEAR shrinks file size for parquet
   if (do_both) {
     data_mortyr <- data_mortyr |>
       mutate(cut_group = cut(1:n(), n_groups)) |>
@@ -56,7 +57,8 @@ if (nrow(data_midpt) <= max_rows) {
       group_split() |>
       map(fia_estimate) |>
       list_rbind() |>
-      fia_split_composite_ids()
+      fia_split_composite_ids() |>
+      arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
   }
 
   data_midpt <- data_midpt |>
@@ -65,7 +67,8 @@ if (nrow(data_midpt) <= max_rows) {
     group_split() |>
     map(fia_estimate) |>
     list_rbind() |>
-    fia_split_composite_ids()
+    fia_split_composite_ids() |>
+    arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
 }
 
 # Write out to parquet
