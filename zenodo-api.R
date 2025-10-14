@@ -2,10 +2,11 @@ library(httr2)
 library(purrr)
 library(fs)
 
-global_id <- "335741" #first version actually
+# global_id <- "335741" #first version actually #sandbox
+global_id <- "17088643"
 
 base_req <- request("https://sandbox.zenodo.org/api/deposit/depositions") |>
-  req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN"))
+  req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN"))
 
 # 1. Get id of most recent version of global_id
 
@@ -14,7 +15,7 @@ resp <- base_req |>
   req_perform()
 record <- resp_body_json(resp)
 latest <- request(record$links$latest) |>
-  req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN")) |>
+  req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN")) |>
   req_perform() |>
   resp_body_json()
 latest_id <- latest$id
@@ -31,7 +32,7 @@ new_version <- req_perform(new_version_req) |>
 # 3. Get id of new version from links$latest_draft
 
 new_version_id <- request(new_version$links$latest_draft) |>
-  req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN")) |>
+  req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN")) |>
   req_perform() |>
   resp_body_json() |>
   purrr::pluck("id")
@@ -79,7 +80,7 @@ paths <- fs::dir_ls("fia/parquet")
 upload_reqs <- map(paths, \(path) {
   request(bucket) |>
     req_url_path_append(path_file(path)) |>
-    req_auth_bearer_token(Sys.getenv("ZENODO_SANDBOX_TOKEN")) |>
+    req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN")) |>
     req_method("PUT") |>
     req_body_file(path)
 })
