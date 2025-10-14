@@ -56,13 +56,14 @@ file_ids <- base_req |>
   map_chr("id")
 
 # 5. delete files
-
-map(file_ids, \(x) {
-  base_req |>
-    req_url_path_append(new_version_id, "files", x) |>
-    req_method("DELETE")
-}) |>
-  req_perform_parallel()
+if (length(file_ids) > 0) {
+  map(file_ids, \(x) {
+    base_req |>
+      req_url_path_append(new_version_id, "files", x) |>
+      req_method("DELETE")
+  }) |>
+    req_perform_sequential()
+}
 
 # 6. upload new files (using new file upload API)
 
