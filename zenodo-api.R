@@ -2,11 +2,12 @@ library(httr2)
 library(purrr)
 library(fs)
 
-# global_id <- "335741" #first version actually #sandbox
-global_id <- "17088643"
+global_id <- "17088643" # First version record ID
+# concept_id <- "17088642"
 
-base_req <- request("https://sandbox.zenodo.org/api/deposit/depositions") |>
+base_req <- request("https://zenodo.org/api/deposit/depositions") |>
   req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN"))
+
 
 # 1. Get id of most recent version of global_id
 
