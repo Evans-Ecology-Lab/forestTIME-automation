@@ -3,11 +3,28 @@ library(purrr)
 library(fs)
 
 global_id <- "17088643" # First version record ID
-# concept_id <- "17088642"
+concept_id <- "17088642"
 
 base_req <- request("https://zenodo.org/api/deposit/depositions") |>
   req_auth_bearer_token(Sys.getenv("ZENODO_TOKEN"))
 
+
+# 0. Check for unpublished drafts (failed previous attempts) and remove them
+
+list <- base_req |>
+  req_url_query(q = concept_id, status = "draft", sort = "mostrecent") |>
+  req_perform() |>
+  resp_body_json()
+
+if (length(list) > 0) {
+  if (list[[1]]$state == "unsubmited") {
+    draft_id <- list[[1]]$id
+    base_req |>
+      req_url_path_append(draft_id, "actions/discard") |>
+      req_method("POST") |>
+      req_perform()
+  }
+}
 
 # 1. Get id of most recent version of global_id
 
