@@ -2,6 +2,9 @@ library(httr2)
 library(purrr)
 library(fs)
 
+# set verbosity for easier debugging on GitHub Actions
+local_verbosity(1)
+
 global_id <- "17088643" # First version record ID
 concept_id <- "17088642"
 
@@ -59,6 +62,7 @@ new_version_id <- request(new_version$links$latest_draft) |>
 
 new_metadata <- new_version$metadata
 new_metadata$publication_date <- Sys.Date()
+new_metadata$version <- Sys.Date()
 
 base_req |>
   req_url_path_append(new_version_id) |>
