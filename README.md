@@ -2,6 +2,7 @@
 # forestTIME-automation
 
 <!-- badges: start -->
+[![run_workflow.yml](https://github.com/Evans-Ecology-Lab/forestTIME-automation/actions/workflows/run_workflow.yml/badge.svg)](https://github.com/Evans-Ecology-Lab/forestTIME-automation/actions/workflows/run_workflow.yml)
 [![DOI](https://zenodo.org/badge/1044408066.svg)](https://doi.org/10.5281/zenodo.17088642)
 <!-- badges: end -->
 
