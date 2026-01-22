@@ -35,15 +35,17 @@ data_midpt <-
 # fia_estimate() |>
 # fia_split_composite_ids()
 
-max_rows <- 1.6e6 #larger than CO, which works currently
+max_rows <- 1.5e6 #larger than CO, which works currently
 if (nrow(data_midpt) <= max_rows) {
   if (do_both) {
     data_mortyr <- data_mortyr |>
       fia_estimate() |>
+      fia_assign_strata() |>
       fia_split_composite_ids()
   }
   data_midpt <- data_midpt |>
     fia_estimate() |>
+    fia_assign_strata() |>
     fia_split_composite_ids()
 } else {
   #chunk into a list of data frames with at most `max_rows` rows
@@ -57,6 +59,7 @@ if (nrow(data_midpt) <= max_rows) {
       group_split() |>
       map(fia_estimate) |>
       list_rbind() |>
+      fia_assign_strata() |>
       fia_split_composite_ids() |>
       arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
   }
@@ -67,6 +70,7 @@ if (nrow(data_midpt) <= max_rows) {
     group_split() |>
     map(fia_estimate) |>
     list_rbind() |>
+    fia_assign_strata() |>
     fia_split_composite_ids() |>
     arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
 }
