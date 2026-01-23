@@ -34,7 +34,7 @@ data_midpt <-
 # fia_estimate() |>
 # fia_split_composite_ids()
 
-max_rows <- 1.5e6 #larger than CO, which works currently
+max_rows <- 1.0e6 
 if (nrow(data_midpt) <= max_rows) {
   if (do_both) {
     data_mortyr <- data_mortyr |>
