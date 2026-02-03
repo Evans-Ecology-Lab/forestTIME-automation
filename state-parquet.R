@@ -32,6 +32,7 @@ data_midpt <-
   adjust_mortality(use_mortyr = FALSE)
 
 rm(data_interpolated) # to save memory
+fs::dir_create("fia/parquet")
 
 max_rows <- 5e5 # do carbon estimation in chunks if more than this many rows
 if (nrow(data_midpt) <= max_rows) {
@@ -40,6 +41,14 @@ if (nrow(data_midpt) <= max_rows) {
       fia_estimate() |>
       fia_assign_strata(db) |>
       fia_split_composite_ids()
+
+    nanoparquet::write_parquet(
+      data_mortyr,
+      file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
+      compression = "zstd",
+      options = parquet_options(compression_level = Inf)
+    )
+    rm(data_mortyr)
   }
   data_midpt <- data_midpt |>
     fia_estimate() |>
@@ -60,6 +69,14 @@ if (nrow(data_midpt) <= max_rows) {
       fia_assign_strata(db) |>
       fia_split_composite_ids() |>
       arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
+
+    nanoparquet::write_parquet(
+      data_mortyr,
+      file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
+      compression = "zstd",
+      options = parquet_options(compression_level = Inf)
+    )
+    rm(data_mortyr)
   }
 
   data_midpt <- data_midpt |>
@@ -74,33 +91,9 @@ if (nrow(data_midpt) <= max_rows) {
 }
 
 # Write out to parquet
-fs::dir_create("fia/parquet")
-if (do_both) {
-  nanoparquet::write_parquet(
-    data_mortyr,
-    file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
-    compression = "zstd",
-    options = parquet_options(compression_level = Inf)
-  )
-}
-
 nanoparquet::write_parquet(
   data_midpt,
   glue::glue("fia/parquet/{state}_midpt.parquet"),
   compression = "zstd",
   options = parquet_options(compression_level = Inf)
 )
-
-# # write to CSV
-# fs::dir_create("fia/csv")
-# if (do_both) {
-#   readr::write_csv(
-#     data_mortyr,
-#     file = glue::glue("fia/csv/{tolower(state)}-mortyr.csv")
-#   )
-# }
-
-# readr::write_csv(
-#   data_midpt,
-#   glue::glue("fia/csv/{tolower(state)}-midpt.csv")
-# )
