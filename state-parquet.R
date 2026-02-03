@@ -19,20 +19,19 @@ data_interpolated <- data |> expand_data() |> interpolate_data()
 # Adjust for mortality and estimate carbon.
 # If any trees use the `MORTYR` variable, use both methods for adjusting for mortality
 do_both <- any(!is.na(data$MORTYR))
+rm(data) # to save memory
 
 if (do_both) {
   data_mortyr <-
     data_interpolated |>
-    adjust_mortality(use_mortyr = TRUE) #|>
-  # fia_estimate() |>
-  # fia_split_composite_ids()
+    adjust_mortality(use_mortyr = TRUE)
 }
 
 data_midpt <-
   data_interpolated |>
-  adjust_mortality(use_mortyr = FALSE) #|>
-# fia_estimate() |>
-# fia_split_composite_ids()
+  adjust_mortality(use_mortyr = FALSE)
+
+rm(data_interpolated) # to save memory
 
 max_rows <- 5e5 # do carbon estimation in chunks if more than this many rows
 if (nrow(data_midpt) <= max_rows) {
