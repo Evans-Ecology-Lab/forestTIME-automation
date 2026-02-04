@@ -46,7 +46,7 @@ if (nrow(data_midpt) <= max_rows) {
       data_mortyr,
       file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
       compression = "zstd",
-      options = parquet_options(compression_level = Inf)
+      options = parquet_options(compression_level = 19)
     )
     rm(data_mortyr)
   }
@@ -54,6 +54,15 @@ if (nrow(data_midpt) <= max_rows) {
     fia_estimate() |>
     fia_assign_strata(db) |>
     fia_split_composite_ids()
+
+  # Write out to parquet
+  message("writing midpt to parquet")
+  nanoparquet::write_parquet(
+    data_midpt,
+    glue::glue("fia/parquet/{state}_midpt.parquet"),
+    compression = "zstd",
+    options = parquet_options(compression_level = 19)
+  )
 } else {
   # chunk into a list of data frames with at most `max_rows` rows
   n_groups <- ceiling(nrow(data_midpt) / max_rows)
@@ -70,11 +79,12 @@ if (nrow(data_midpt) <= max_rows) {
       fia_split_composite_ids() |>
       arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
 
+    message("writing mortyr to parquet")
     nanoparquet::write_parquet(
       data_mortyr,
       file = glue::glue("fia/parquet/{state}_mortyr.parquet"),
       compression = "zstd",
-      options = parquet_options(compression_level = Inf)
+      options = parquet_options(compression_level = 19)
     )
     rm(data_mortyr)
   }
@@ -88,12 +98,13 @@ if (nrow(data_midpt) <= max_rows) {
     fia_assign_strata(db) |>
     fia_split_composite_ids() |>
     arrange(STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, YEAR)
-}
 
-# Write out to parquet
-nanoparquet::write_parquet(
-  data_midpt,
-  glue::glue("fia/parquet/{state}_midpt.parquet"),
-  compression = "zstd",
-  options = parquet_options(compression_level = Inf)
-)
+  # Write out to parquet
+  message("writing midpt to parquet")
+  nanoparquet::write_parquet(
+    data_midpt,
+    glue::glue("fia/parquet/{state}_midpt.parquet"),
+    compression = "zstd",
+    options = parquet_options(compression_level = 19)
+  )
+}
