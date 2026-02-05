@@ -20,6 +20,7 @@ data_interpolated <- data |> expand_data() |> interpolate_data()
 # If any trees use the `MORTYR` variable, use both methods for adjusting for mortality
 do_both <- any(!is.na(data$MORTYR))
 rm(data) # to save memory
+gc()
 
 if (do_both) {
   data_mortyr <-
@@ -32,6 +33,7 @@ data_midpt <-
   adjust_mortality(use_mortyr = FALSE)
 
 rm(data_interpolated) # to save memory
+gc()
 fs::dir_create("fia/parquet")
 
 max_rows <- 5e5 # do carbon estimation in chunks if more than this many rows
@@ -49,6 +51,7 @@ if (nrow(data_midpt) <= max_rows) {
       options = parquet_options(compression_level = 19)
     )
     rm(data_mortyr)
+    gc()
   }
   data_midpt <- data_midpt |>
     fia_estimate() |>
@@ -87,6 +90,7 @@ if (nrow(data_midpt) <= max_rows) {
       options = parquet_options(compression_level = 19)
     )
     rm(data_mortyr)
+    gc()
   }
 
   data_midpt <- data_midpt |>
