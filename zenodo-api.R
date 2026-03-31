@@ -1,6 +1,7 @@
 library(httr2)
 library(purrr)
 library(fs)
+library(jsonlite)
 
 # set verbosity for easier debugging on GitHub Actions
 local_verbosity(1)
