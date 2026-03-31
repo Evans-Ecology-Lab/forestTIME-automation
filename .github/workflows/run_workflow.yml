@@ -73,6 +73,7 @@ jobs:
             any::httr2
             any::purrr
             any::fs
+            any::jsonlite
 
       - name: Create new version and upload to Zenodo
         run: Rscript zenodo-api.R
