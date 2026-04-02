@@ -12,7 +12,7 @@ name: run_workflow.yml
 
 jobs:
   states:
-    runs-on: forestTIME
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
