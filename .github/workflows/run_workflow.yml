@@ -21,7 +21,7 @@ jobs:
       # state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
     steps:
       - name: random sleep
-        run: echo $((1 + $RANDOM % 10))
+        run: echo $((10 + $RANDOM % 20))
       - uses: actions/checkout@v4 
       
       - uses: r-lib/actions/setup-r@v2
