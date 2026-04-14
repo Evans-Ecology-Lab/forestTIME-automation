@@ -82,3 +82,11 @@ jobs:
         run: Rscript zenodo-api.R
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+  rerun-on-failure:
+    runs-on: self-hosted
+    needs: states
+    if: failure() && github.run_attempt < 3  # Limit retries to prevent infinite loops
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.YOUR_PAT_TOKEN }}
+        run: gh run rerun ${{ github.run_id }} --failed
