@@ -1,4 +1,4 @@
-pak::pak("Evans-Ecology-Lab/forestTIME", ask = FALSE, upgrade = TRUE)
+pak::pkg_install("Evans-Ecology-Lab/forestTIME", ask = FALSE, upgrade = TRUE)
 message("✓ forestTIME successfully installed or upgraded.")
 
 state = Sys.getenv("STATE", unset = "RI") #use RI for testing because it is small
