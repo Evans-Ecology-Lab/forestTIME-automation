@@ -1,3 +1,5 @@
+pak::pak("Evans-Ecology-Lab/forestTIME")
+
 state = Sys.getenv("STATE", unset = "RI") #use RI for testing because it is small
 
 library(forestTIME)
