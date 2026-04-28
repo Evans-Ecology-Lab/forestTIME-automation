@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-       # state: ["GA", "MN", "TX", "AL"]
-        state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+        state: ["GA", "MI",]
+      # state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
     container:
       image: ghcr.io/devinbayly/foresttime-hpc:latest
     steps:
@@ -69,11 +69,4 @@ jobs:
         run: Rscript zenodo-api.R
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
-  rerun-on-failure:
-    runs-on: self-hosted
-    needs: states
-    if: failure() && github.run_attempt < 3  # Limit retries to prevent infinite loops
-    steps:
-      - env:
-          GH_TOKEN: ${{ secrets.YOUR_PAT_TOKEN }}
-        run: gh run rerun ${{ github.run_id }} --failed
+ 
