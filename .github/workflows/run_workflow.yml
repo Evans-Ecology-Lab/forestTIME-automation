@@ -11,13 +11,14 @@ on:
 name: run_workflow.yml
 
 jobs:
-  states:
+
+  small_states:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         # state: ["DE", "RI"]
-        state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+        state: ["AZ", "AR", "CA", "CO", "CT", "DE", "FL", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "UT", "VT", "VA", "WA", "WV", "WY"]
     steps:
       - uses: actions/checkout@v4
       
@@ -44,12 +45,46 @@ jobs:
         with:
           name: ${{ matrix.state }}
           path: fia/parquet/*
+          
+  large_states:
+    runs-on: BigStateRunner # Update this with actual name
+    strategy:
+      fail-fast: false
+      matrix:
+        state: ["AL", "GA", "MI", "MN", "NC", "OR", "TX", "WI"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::dplyr
+            any::purrr
+            any::nanoparquet
+            any::fs
+            github::Evans-Ecology-Lab/forestTIME
+
+      - name: Generate state parquet
+        run: Rscript state-parquet.R
+        env:
+          STATE: ${{ matrix.state }}
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.state }}
+          path: fia/parquet/*
 
   release:
   # only happens if schedule or workflow_dispatch with release=TRUE
     if: ${{ (inputs.release && github.event_name == 'workflow_dispatch') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
-    needs: states
+    needs: [small_states, large_states]
     steps:
       - uses: actions/checkout@v4
 
