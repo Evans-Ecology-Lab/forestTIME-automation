@@ -22,13 +22,13 @@ jobs:
     container:
       image: ghcr.io/devinbayly/foresttime-hpc:latest
     steps:
-      # - name: install forestTIME
-      #   run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME#231')"
       - uses: actions/checkout@v4
         with:
          ref: ${{ github.event.pull_request.head.sha }}
       - name: check directory contents
         run: ls -rtlha
+      - name: install forestTIME
+        run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME#231')"
       - name: Generate state parquet
         run: Rscript state-parquet-v2.R
         env:
