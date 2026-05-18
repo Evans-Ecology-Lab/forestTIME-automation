@@ -26,7 +26,9 @@ jobs:
         run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME#231')"
       - uses: actions/checkout@v4
         with:
-         path: ${{ github.sha }}
+         ref: ${{ github.event.pull_request.head.sha }}
+      - name: see git log info
+        run: git -P log
       - name: check directory contents
         run: ls -rtlha
       - name: Generate state parquet
