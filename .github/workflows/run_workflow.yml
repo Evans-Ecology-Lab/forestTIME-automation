@@ -23,8 +23,6 @@ jobs:
       image: ghcr.io/devinbayly/foresttime-hpc:latest
     steps:
       - uses: actions/checkout@v4
-        with:
-         ref: ${{ github.event.pull_request.head.sha }}
       - name: check directory contents
         run: ls -rtlha
       - name: install forestTIME
