@@ -26,7 +26,7 @@ for (year_var in c("INVYR", "MEASYEAR")) {
   # Adjust for mortality and estimate carbon.
   # If any trees use the `MORTYR` variable, use both methods for adjusting for mortality
   do_both <- any(!is.na(data$MORTYR))
-  rm(data) # to save memory
+  # rm(data) # to save memory - commenting this out to work with loop
   gc()
   
   if (do_both) {
@@ -39,7 +39,7 @@ for (year_var in c("INVYR", "MEASYEAR")) {
     data_interpolated |>
     adjust_mortality(use_mortyr = FALSE)
   
-  rm(data_interpolated) # to save memory
+  # rm(data_interpolated) # to save memory - commenting this out to work with loop
   gc()
   fs::dir_create("fia/parquet")
   
@@ -57,7 +57,7 @@ for (year_var in c("INVYR", "MEASYEAR")) {
         compression = "zstd",
         options = parquet_options(compression_level = 19)
       )
-      rm(data_mortyr)
+      # rm(data_mortyr) - commenting this out to work with loop
       gc()
     }
     
@@ -97,7 +97,7 @@ for (year_var in c("INVYR", "MEASYEAR")) {
         compression = "zstd",
         options = parquet_options(compression_level = 19)
       )
-      rm(data_mortyr)
+      # rm(data_mortyr) - commenting this out to work with loop
       gc()
     }
     
