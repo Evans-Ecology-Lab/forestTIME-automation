@@ -36,7 +36,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.state }}
+          name: ${{ matrix.state }}_${{ matrix.year_var}}
           path: fia/parquet/*
 
   release:
