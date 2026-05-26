@@ -21,7 +21,7 @@ jobs:
         year_var: ["INVYR","MEASYEAR"]
       # state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
     container:
-      image: ghcr.io/devinbayly/foresttime-hpc:latest
+      image: ghcr.io/devinbayly/foresttime-hpc@sha256:be2f2f52024fe919a40bee9e363068477391fbcf181f79a69f4f365f23b66ffb
     steps:
       - uses: actions/checkout@v4
       - name: check directory contents
