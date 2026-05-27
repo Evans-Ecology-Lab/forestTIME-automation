@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.state }}
-          path: fia/parquet/${{ matrix.state }}/*
+          path: fia/parquet/${{ matrix.state }}
 
   release:
   # only happens if schedule or workflow_dispatch with release=TRUE
