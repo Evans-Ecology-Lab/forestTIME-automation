@@ -92,7 +92,7 @@ if (nrow(data_midpt) <= max_rows) {
     message("writing mortyr to parquet")
     nanoparquet::write_parquet(
       data_mortyr,
-      file = glue::glue("fia/parquet/{state}_mortyr_{year_var}.parquet"),
+      file = glue::glue("fia/parquet/{state}/{state}_mortyr_{year_var}.parquet"),
       compression = "zstd",
       options = parquet_options(compression_level = 19)
     )
@@ -114,7 +114,7 @@ if (nrow(data_midpt) <= max_rows) {
   message("writing midpt to parquet")
   nanoparquet::write_parquet(
     data_midpt,
-    glue::glue("fia/parquet/{state}_midpt_{year_var}.parquet"),
+    glue::glue("fia/parquet/{state}/{state}_midpt_{year_var}.parquet"),
     compression = "zstd",
     options = parquet_options(compression_level = 19)
   )
