@@ -40,7 +40,7 @@ data_midpt <-
 
 # rm(data_interpolated) # to save memory - commenting this out to work with loop
 gc()
-fs::dir_create(glue::glue("fia/parquet/{state}"))
+fs::dir_create("fia/parquet/{state}")
 
 max_rows <- 5e5 # do carbon estimation in chunks if more than this many rows
 if (nrow(data_midpt) <= max_rows) {
