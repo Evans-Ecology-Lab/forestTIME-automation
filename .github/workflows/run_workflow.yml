@@ -11,7 +11,48 @@ on:
 name: run_workflow.yml
 
 jobs:
+  turn_on_self_hosted:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: check directory contents
+        run: ls -rtlha
+      - name: install openstack
+        run: pip install python-openstackclient
+      - run: |
+            mkdir -p ~/.config/openstack
+            echo "$OPENSTACK_CLOUD" > ~/.config/openstack/clouds.yaml
+        env:
+          OPENSTACK_CLOUD: ${{ secrets.OPENSTACK_CLOUD}}
+      - run: openstack --os-cloud=$CLOUD_NAME server list 
+        env:
+          CLOUD_NAME: ${{secrets.CLOUD_NAME}}
+          OPENSTACK_CLOUD: ${{ secrets.OPENSTACK_CLOUD}}
+      - run: |
+            python3 - << EOF
+            import openstack
+            import os
+
+            cloud_env_name = os.environ["CLOUD_NAME"] 
+            # Initialize connection from a clouds.yaml by passing a cloud name
+            conn = openstack.connect(cloud=cloud_env_name)
+            print("con", conn)
+            server_id =""
+            for server in conn.compute.servers():
+                print(server)
+                if server.name =="actions-runner":
+                    if server.status =="SHELVED_OFFLOADED":
+                        server.unshelve(conn.compute)
+                        # use the built in wait for server
+                        conn.compute.wait_for_server(server,"ACTIVE",wait=5*60)
+                        print("we have reached unshelved complete")
+                    break
+            EOF
+        env:
+          CLOUD_NAME: ${{secrets.CLOUD_NAME}}
+
   states:
+    needs: turn_on_self_hosted
     timeout-minutes: 2160
     runs-on: self-hosted
     strategy:
@@ -75,4 +116,42 @@ jobs:
         run: Rscript zenodo-api.R
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
- 
+  turn_off_self_hosted:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: check directory contents
+        run: ls -rtlha
+      - name: install openstack
+        run: pip install python-openstackclient
+      - run: |
+            mkdir -p ~/.config/openstack
+            echo "$OPENSTACK_CLOUD" > ~/.config/openstack/clouds.yaml
+        env:
+          OPENSTACK_CLOUD: ${{ secrets.OPENSTACK_CLOUD}}
+      - run: openstack --os-cloud=$CLOUD_NAME server list 
+        env:
+          CLOUD_NAME: ${{secrets.CLOUD_NAME}}
+          OPENSTACK_CLOUD: ${{ secrets.OPENSTACK_CLOUD}}
+      - run: |
+            python3 - << EOF
+            import openstack
+            import os
+
+            cloud_env_name = os.environ["CLOUD_NAME"] 
+            # Initialize connection from a clouds.yaml by passing a cloud name
+            conn = openstack.connect(cloud=cloud_env_name)
+            print("con", conn)
+            server_id =""
+            for server in conn.compute.servers():
+                print(server)
+                if server.name =="actions-runner":
+                    if server.status =="ACTIVE":
+                        server.shelve(conn.compute)
+                        # use the built in wait for server
+                        conn.compute.wait_for_server(server,"SHELVED_OFFLOADED",wait=5*60)
+                        print("we have reached unshelved complete")
+                    break
+            EOF
+        env:
+          CLOUD_NAME: ${{secrets.CLOUD_NAME}}
