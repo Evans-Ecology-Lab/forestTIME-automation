@@ -11,7 +11,7 @@ on:
 name: run_workflow.yml
 
 jobs:
-states:
+  states:
     timeout-minutes: 2160
     runs-on: self-hosted
     strategy:
