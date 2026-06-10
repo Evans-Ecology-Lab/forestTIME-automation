@@ -4,7 +4,7 @@ ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
 headers = {"Content-Type":"application/json","Authorization":f"Bearer {ACCESS_TOKEN}"}
 
-r= requests.post("https://zenodo.org/api/deposit/depositions',json={},headers=headers)
+r= requests.post("https://zenodo.org/api/deposit/depositions",json={},headers=headers)
 
 bucket_url = r.json()["links"]["bucket"]
 
