@@ -11,39 +11,11 @@ on:
 name: run_workflow.yml
 
 jobs:
-  states:
-    timeout-minutes: 2160
-    runs-on: self-hosted
-    strategy:
-      fail-fast: false
-      matrix:
-        # state: ["RI"]
-        year_var: ["INVYR", "MEASYEAR"]
-        state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
-    container:
-      image: ghcr.io/devinbayly/foresttime-hpc@sha256:57038b4708f1ef1e5628c6211141cee6810d1d210efb823c6cd290b961e93170
-    steps:
-      - uses: actions/checkout@v4
-      - name: check directory contents
-        run: ls -rtlha
-      - name: install forestTIME
-        run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME#231')"
-      - name: Generate state parquet
-        run: Rscript state-parquet-v2.R
-        env:
-          STATE: ${{ matrix.state }}
-          YEAR_VAR: ${{ matrix.year_var }}
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.state }}_${{ matrix.year_var }}
-          path: fia/parquet/${{ matrix.state }}
-
   release:
   # only happens if schedule or workflow_dispatch with release=TRUE
     if: ${{ (inputs.release && github.event_name == 'workflow_dispatch') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
-    needs: states
+    #needs: states
     steps:
       - uses: actions/checkout@v4
 
@@ -51,6 +23,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: "fia/parquet"
+          run-id: 27160227886
           merge-multiple: true
 
       - name: Total release size
