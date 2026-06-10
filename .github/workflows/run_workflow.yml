@@ -47,8 +47,3 @@ jobs:
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
   
-                        print("we have reached unshelved complete")
-                    break
-            EOF
-        env:
-          CLOUD_NAME: ${{secrets.CLOUD_NAME}}
