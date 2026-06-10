@@ -10,7 +10,7 @@ bucket_url = r.json()["links"]["bucket"]
 
 filename = "GA.zip"
 
-path= "./%s" % filename
+path= "./fia/parquet%s" % filename
 
 headers=  {"Authorization":"Bearer {ACCESS_TOKEN}"}
 
