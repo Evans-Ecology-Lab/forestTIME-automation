@@ -98,6 +98,7 @@ info <- base_req |>
   resp_body_json()
 bucket <- info$links$bucket
 paths <- fs::dir_ls("fia/parquet")
+message("ran through step 6")
 
 # Then upload all the files
 upload_reqs <- map(paths, \(path) {
