@@ -41,6 +41,7 @@ latest <- request(record$links$latest) |>
   req_perform() |>
   resp_body_json()
 latest_id <- latest$id
+message("ran through step 1")
 
 
 # 2. Create new version
@@ -50,6 +51,7 @@ new_version_req <- base_req |>
   req_method("POST")
 new_version <- req_perform(new_version_req) |>
   resp_body_json()
+message("ran through step 2")
 
 # 3. Get id of new version from links$latest_draft
 
@@ -58,6 +60,7 @@ new_version_id <- request(new_version$links$latest_draft) |>
   req_perform() |>
   resp_body_json() |>
   purrr::pluck("id")
+message("ran through step 3")
 
 # 4. Update metadata
 
@@ -78,6 +81,7 @@ file_ids <- base_req |>
   req_perform() |>
   resp_body_json() |>
   map_chr("id")
+message("ran through step 4")
 
 # 5. delete files
 if (length(file_ids) > 0) {
@@ -88,6 +92,7 @@ if (length(file_ids) > 0) {
   }) |>
     req_perform_sequential()
 }
+message("ran through step 5")
 
 # 6. upload new files (using new file upload API)
 
@@ -98,7 +103,7 @@ info <- base_req |>
   resp_body_json()
 bucket <- info$links$bucket
 paths <- fs::dir_ls("fia/parquet")
-message("ran through step 6")
+message("ran through "get the bucket link"")
 
 # Then upload all the files
 upload_reqs <- map(paths, \(path) {
