@@ -27,7 +27,7 @@ jobs:
           merge-multiple: true
 
       - name: Total release size
-        run: du -hs fia/parquet
+        run: ls fia/parquet -rtlh
       - name: upload with python zenodo
         run: python3 zenodo_python.py
         env:
