@@ -5,9 +5,9 @@ ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
 # try to list out the existing r
 
-headers = {"Content-Type":"application/json","Authorization":f"Bearer {ACCESS_TOKEN}"}
+headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 
-r= requests.post("https://zenodo.org/api/deposit/depositions",params={"status":"draft"},headers=headers)
+r= requests.get("https://zenodo.org/api/deposit/depositions",params={"status":"draft"},headers=headers)
 print(r.json())
 
 # go through list and remove any of them 
