@@ -105,6 +105,7 @@ for f in files:
           headers=headers,
       )
       print(r)
+      print(r.json())
     except Exception as e:
       print("upload snag")
       print(e)
