@@ -2,6 +2,7 @@ import requests
 from pathlib import Path
 import os
 ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
+print(ACCESS_TOKEN)
 
 headers = {"Content-Type":"application/json","Authorization":f"Bearer {ACCESS_TOKEN}"}
 
