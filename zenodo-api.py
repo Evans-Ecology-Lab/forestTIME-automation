@@ -95,6 +95,10 @@ seperated by a slash.
 '''
 files = sorted(Path("fia/parquet/").iterdir())
 print(files)
+headers = {
+    "Content-Type": "application/octet-stream",
+    "Authorization": f"Bearer {ACCESS_TOKEN}"
+}
 for f in files:
   print("starting",f)
   with open(f, "rb") as fp:
