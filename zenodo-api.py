@@ -122,6 +122,7 @@ for f in files:
               data=fp,
               headers=headers,
           )
+          print(r)
           failed = False
         except:
           print("failed upload again",f)
