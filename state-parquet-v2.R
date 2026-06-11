@@ -40,7 +40,7 @@ data_midpt <-
 
 # rm(data_interpolated) # to save memory - commenting this out to work with loop
 gc()
-fs::dir_create("fia/parquet")
+fs::dir_create(glue::glue("fia/parquet/{state}"))
 
 max_rows <- 5e5 # do carbon estimation in chunks if more than this many rows
 if (nrow(data_midpt) <= max_rows) {
@@ -52,7 +52,7 @@ if (nrow(data_midpt) <= max_rows) {
     
     nanoparquet::write_parquet(
       data_mortyr,
-      file = glue::glue("fia/parquet/{state}_mortyr_{year_var}.parquet"),
+      file = glue::glue("fia/parquet/{state}/{state}_mortyr_{year_var}.parquet"),
       compression = "zstd",
       options = parquet_options(compression_level = 19)
     )
@@ -69,7 +69,7 @@ if (nrow(data_midpt) <= max_rows) {
   message("writing midpt to parquet")
   nanoparquet::write_parquet(
     data_midpt,
-    glue::glue("fia/parquet/{state}_midpt_{year_var}.parquet"),
+    glue::glue("fia/parquet/{state}/{state}_midpt_{year_var}.parquet"),
     compression = "zstd",
     options = parquet_options(compression_level = 19)
   )
@@ -92,7 +92,7 @@ if (nrow(data_midpt) <= max_rows) {
     message("writing mortyr to parquet")
     nanoparquet::write_parquet(
       data_mortyr,
-      file = glue::glue("fia/parquet/{state}_mortyr_{year_var}.parquet"),
+      file = glue::glue("fia/parquet/{state}/{state}_mortyr_{year_var}.parquet"),
       compression = "zstd",
       options = parquet_options(compression_level = 19)
     )
@@ -114,7 +114,7 @@ if (nrow(data_midpt) <= max_rows) {
   message("writing midpt to parquet")
   nanoparquet::write_parquet(
     data_midpt,
-    glue::glue("fia/parquet/{state}_midpt_{year_var}.parquet"),
+    glue::glue("fia/parquet/{state}/{state}_midpt_{year_var}.parquet"),
     compression = "zstd",
     options = parquet_options(compression_level = 19)
   )
