@@ -104,6 +104,7 @@ for f in files:
           data=fp,
           headers=headers,
       )
+      print(r)
     except Exception as e:
       print("upload snag")
       print(e)
