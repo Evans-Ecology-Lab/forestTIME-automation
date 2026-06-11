@@ -1,7 +1,4 @@
 on:
-  push:
-    branches:
-      - "main"
   schedule:
     - cron: 0 0 1 * * # midnight on 1st of month
   workflow_dispatch: 
