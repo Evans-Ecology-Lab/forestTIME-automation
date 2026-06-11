@@ -86,12 +86,14 @@ for f in r.json():
 # adding new contents
 print("adding new contents")
 r = requests.get(f'https://zenodo.org/api/deposit/depositions/{new_version_res["id"]}',headers=headers)
+print(r)
 new_bucket_url = r.json()["links"]["bucket"]
 ''' 
 The target URL is a combination of the bucket link with the desired filename
 seperated by a slash.
 '''
 files = sorted(Path("fia/parquet/").iterdir())
+print(files)
 for f in files:
     with open(f, "rb") as fp:
         r = requests.put(
@@ -99,4 +101,5 @@ for f in files:
             data=fp,
             headers=headers,
         )
+    print("uploaded ",f)
 r.json()
