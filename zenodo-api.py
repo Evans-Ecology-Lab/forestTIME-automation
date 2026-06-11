@@ -48,12 +48,14 @@ r = requests.post(f'https://zenodo.org/api/deposit/depositions/{latest_id}/actio
 
 # update the metadata
 
+print("updating metadata")
 new_version_res = r.json()
 print(new_version_res)
 meta = new_version_res["metadata"]
 x = datetime.datetime.now()
 meta["publication_date"]= x.strftime("%Y-%m-%d")
 meta["version"] = meta["publication_date"] 
+
 
 headers = {
     "Content-Type": "application/json",
@@ -69,9 +71,20 @@ r = requests.put(f'https://zenodo.org/api/deposit/depositions/{new_version_res["
 
 # delete the files in the new version draft
 
+print("trying to delete contents of previous version")
 r = requests.get(f'https://zenodo.org/api/deposit/depositions/{new_version_res["id"]}/files',headers=headers)
 for f in r.json():
-    r = requests.delete(f'https://zenodo.org/api/deposit/depositions/{new_version_res["id"]}/files/{f["id"]}',headers=headers)
+    try:
+      r = requests.delete(f'https://zenodo.org/api/deposit/depositions/{new_version_res["id"]}/files/{f["id"]}',headers=headers)
+
+    except Exception as e:
+      print("ran into ")
+      print(e)
+      print()
+      print("continuing")
+
+# adding new contents
+print("adding new contents")
 r = requests.get(f'https://zenodo.org/api/deposit/depositions/{new_version_res["id"]}',headers=headers)
 new_bucket_url = r.json()["links"]["bucket"]
 ''' 
