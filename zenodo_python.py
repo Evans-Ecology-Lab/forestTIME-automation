@@ -5,6 +5,7 @@ ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
 # try to list out the existing r
 
+
 headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 
 r= requests.get("https://zenodo.org/api/deposit/depositions",params={"status":"draft"},headers=headers)
@@ -23,17 +24,25 @@ headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 
 r= requests.post("https://zenodo.org/api/deposit/depositions",json={},headers=headers)
 
+# latest version
+gid = "20635476"
+
+resp =requests.post(f"https://zenodo.org/api/deposit/depositions/{gid}",json={},headers=headers)
+print(resp)
+# latest
 
 
-bucket_url = r.json()["links"]["bucket"]
 
-contents = sorted(Path("fia/parquet/").iterdir())
 
-for content in contents:
-  fname = content.name
-  parent = content.parent
-  headers=  {"Authorization":f"Bearer {ACCESS_TOKEN}"}
+# bucket_url = r.json()["links"]["bucket"]
 
-  with open(content,"rb") as fp:
-    r = requests.put("%s/%s" %(bucket_url,fname), data=fp,headers=headers)
-  print(r.json())
+# contents = sorted(Path("fia/parquet/").iterdir())
+
+# for content in contents:
+#   fname = content.name
+#   parent = content.parent
+#   headers=  {"Authorization":f"Bearer {ACCESS_TOKEN}"}
+
+#   with open(content,"rb") as fp:
+#     r = requests.put("%s/%s" %(bucket_url,fname), data=fp,headers=headers)
+#   print(r.json())
