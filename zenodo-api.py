@@ -97,34 +97,34 @@ files = sorted(Path("fia/parquet/").iterdir())
 print(files)
 for f in files:
   print("starting",f)
-    with open(f, "rb") as fp:
-      try:
-        r = requests.put(
-            "%s/%s" % (new_bucket_url,f.name),
-            data=fp,
-            headers=headers,
-        )
-      except Exception as e:
-        print("upload snag")
-        print(e)
-        print("retrying after delay")
-        failed = True
-        retries = 5
-        while failed:
-          retries -=1
-          if retries <0:
-            print("failed completely",f)
-            break
-          time.sleep(2)
-          try:
-            r = requests.put(
-                "%s/%s" % (new_bucket_url,f.name),
-                data=fp,
-                headers=headers,
-            )
-            failed = False
-          except:
-            print("failed upload again",f)
+  with open(f, "rb") as fp:
+    try:
+      r = requests.put(
+          "%s/%s" % (new_bucket_url,f.name),
+          data=fp,
+          headers=headers,
+      )
+    except Exception as e:
+      print("upload snag")
+      print(e)
+      print("retrying after delay")
+      failed = True
+      retries = 5
+      while failed:
+        retries -=1
+        if retries <0:
+          print("failed completely",f)
+          break
+        time.sleep(2)
+        try:
+          r = requests.put(
+              "%s/%s" % (new_bucket_url,f.name),
+              data=fp,
+              headers=headers,
+          )
+          failed = False
+        except:
+          print("failed upload again",f)
 
           
 
