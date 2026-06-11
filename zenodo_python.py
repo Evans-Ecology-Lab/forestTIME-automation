@@ -10,7 +10,7 @@ headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 r= requests.get("https://zenodo.org/api/deposit/depositions",params={"status":"draft"},headers=headers)
 print(r.json())
 
-# go through list and remove any of them 
+# go through list and remove any  drafts
 resultj = r.json()
 
 for res in resultj:
@@ -19,16 +19,21 @@ for res in resultj:
   r= requests.delete(f"https://zenodo.org/api/deposit/depositions/{draft_id}",headers=headers)
   print()
 
+headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
+
+r= requests.post("https://zenodo.org/api/deposit/depositions",json={},headers=headers)
+
 
 
 bucket_url = r.json()["links"]["bucket"]
 
 contents = sorted(Path("fia/parquet/").iterdir())
 
-fname = contents[0].name
-parent = contents[0].parent
-headers=  {"Authorization":f"Bearer {ACCESS_TOKEN}"}
+for content in contents:
+  fname = content.name
+  parent = content.parent
+  headers=  {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 
-with open(contents[0],"rb") as fp:
-  r = requests.put("%s/%s" %(bucket_url,fname), data=fp,headers=headers)
-print(r.json())
+  with open(content,"rb") as fp:
+    r = requests.put("%s/%s" %(bucket_url,fname), data=fp,headers=headers)
+  print(r.json())
