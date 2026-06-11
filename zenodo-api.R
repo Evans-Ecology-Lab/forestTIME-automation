@@ -42,17 +42,14 @@ latest <- request(record$links$latest) |>
   resp_body_json()
 latest_id <- latest$id
 message("ran through step 1")
-view(latest_id)
 
 # 2. Create new version
 
 new_version_req <- base_req |>
   req_url_path_append(latest_id, "actions/newversion") |>
   req_method("POST")
-view(new_version_req)
 new_version <- req_perform(new_version_req) |>
   resp_body_json()
-view(new_version)
 message("ran through step 2")
 
 # 3. Get id of new version from links$latest_draft
