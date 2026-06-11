@@ -7,7 +7,7 @@ ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
 headers = {"Content-Type":"application/json","Authorization":f"Bearer {ACCESS_TOKEN}"}
 
-r= requests.post("https://zenodo.org/api/deposit/depositions",params={"status":"draft","sort":"mostrecent","q":"17088642"},json={},headers=headers)
+r= requests.post("https://zenodo.org/api/deposit/depositions",params={"status":"draft","sort":"mostrecent"},json={},headers=headers)
 print(r.json())
 
 # go through list and remove any of them 
