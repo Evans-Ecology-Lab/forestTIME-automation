@@ -15,6 +15,6 @@ fname = contents[0].name
 parent = contents[0].parent
 headers=  {"Authorization":"Bearer {ACCESS_TOKEN}"}
 
-with open(path,"rb") as fp:
+with open(contents[0],"rb") as fp:
   r = requests.put("%s/%s" %(bucket_url,filename), data=fp,headers=headers)
 print(r.json())
