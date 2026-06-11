@@ -31,7 +31,7 @@ jobs:
       - name: Total release size
         run: ls fia/parquet -rtlh
       - name: upload with python zenodo
-        run: python3 zenodo_python.py
+        run: python3 zenodo-api.py
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
   
