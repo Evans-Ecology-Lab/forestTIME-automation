@@ -1,4 +1,5 @@
 import requests
+from pathlib import Path
 import os
 ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
@@ -8,10 +9,10 @@ r= requests.post("https://zenodo.org/api/deposit/depositions",json={},headers=he
 
 bucket_url = r.json()["links"]["bucket"]
 
-filename = "GA.zip"
+contents = sorted(Path("fia/parquet/").iterdir())
 
-path= "./fia/parquet%s" % filename
-
+fname = contents[0].name
+parent = contents[0].parent
 headers=  {"Authorization":"Bearer {ACCESS_TOKEN}"}
 
 with open(path,"rb") as fp:
