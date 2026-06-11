@@ -16,7 +16,6 @@ name: run_workflow.yml
 jobs:
   release:
   # only happens if schedule or workflow_dispatch with release=TRUE
-    if: ${{ (inputs.release && github.event_name == 'workflow_dispatch') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
