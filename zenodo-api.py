@@ -8,10 +8,10 @@ ACCESS_TOKEN=os.environ["ZENODO_TOKEN"]
 
 # try to list out the existing r
 
-
+conceptid = "17088642"
 headers = {"Authorization":f"Bearer {ACCESS_TOKEN}"}
 
-r= requests.get("https://zenodo.org/api/deposit/depositions",params={"status":"draft"},headers=headers)
+r= requests.get("https://zenodo.org/api/deposit/depositions",params={"status":"draft","q":conceptid},headers=headers)
 print(r.json())
 
 # go through list and remove any  drafts, new versions or otherwise
@@ -25,7 +25,8 @@ for res in resultj:
 
 
 # get the latest version
-gid = "20635476"
+#gid = "20635476"
+gid = "17088643"
 r = requests.get(f"https://zenodo.org/api/deposit/depositions/{gid}",headers=headers)
 # 401
 res = r.json()
