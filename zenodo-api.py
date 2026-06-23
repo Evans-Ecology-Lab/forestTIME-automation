@@ -27,7 +27,7 @@ print(new_locations)
 folders = sorted(Path("fia/parquet").glob("*"))
 
 for folder in folders:
-  sp.run(f"zip -r fia/parquet/{folder.name}.zip {folder}")
+  sp.run(f"zip -r fia/parquet/{folder.name}.zip {folder}",shell=True)
   print("folder zipped",folder)
 
 
@@ -167,3 +167,8 @@ for f in files:
 
     print("uploaded ",f)
 r.json()
+
+headers = {'Authorization': f'Bearer {ACCESS_TOKEN}'}
+r = requests.post('https://zenodo.org/api/deposit/depositions/%s/actions/publish' % new_version_res["id"],
+                      headers=headers)
+r.status_code
