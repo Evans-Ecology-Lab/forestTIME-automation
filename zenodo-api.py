@@ -27,7 +27,7 @@ print(new_locations)
 folders = sorted(Path("fia/parquet").glob("*"))
 
 for folder in folders:
-  sp.run(f"zip -r fia/parquet/{folder.name}.zip {folder}")
+  sp.run(f"zip -r fia/parquet/{folder.name}.zip {folder}",shell=True)
   print("folder zipped",folder)
 
 
