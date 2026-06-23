@@ -40,6 +40,7 @@ jobs:
           path: fia/parquet/${{ matrix.state }}  
           
  release:
+    needs: states
   # only happens if schedule or workflow_dispatch with release=TRUE
     runs-on: ubuntu-latest
     steps:
