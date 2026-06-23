@@ -6,7 +6,7 @@ import json
 import time
 import shutil as sh
 # make new folders that hold the 4 parquet files that are available
-parquets = sort(Path("fia/parquet").glob("*.parquet"))
+parquets = sorted(Path("fia/parquet").glob("*.parquet"))
 
 # make the folders
 for p in parquets:
@@ -19,7 +19,7 @@ for p in parquets:
   sh.move(p,f"{folder}/{p.name}")
   print("moved",p)
 
-new_locations = sort(Path("fia/parquet").glob("*/*.parquet"))
+new_locations = sorted(Path("fia/parquet").glob("*/*.parquet"))
 print(new_locations)
 
 
