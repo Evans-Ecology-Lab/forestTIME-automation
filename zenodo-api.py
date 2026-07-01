@@ -26,10 +26,10 @@ print(new_locations)
 # now run a system command to zip up the contents of the state folders
 folders = sorted(Path("fia/parquet").glob("*"))
 
-for folder in folders:
-  sp.run(f"zip -r fia/parquet/{folder.name}.zip {folder}",shell=True)
-  print("folder zipped",folder)
 
+for folder in folders:
+  sp.run(f"cd fia/parquet/; zip -r ../../{folder.name}.zip {folder.name}",shell=True)
+  print("folder zipped",folder)
 
 
 
