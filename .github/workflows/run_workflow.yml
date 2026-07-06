@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        state: ["OH"]
+        state: ["CA", "CO", "RI"]
         year_var: ["INVYR", "MEASYEAR"]
         #state: ["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
     container:
@@ -27,7 +27,7 @@ jobs:
       - name: check directory contents
         run: ls -rtlha
       - name: install forestTIME
-        run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME')"
+        run: R -e "pak::pak('Evans-Ecology-Lab/forestTIME#232')"
       - name: Generate state parquet
         run: Rscript state-parquet-v2.R
         env:
