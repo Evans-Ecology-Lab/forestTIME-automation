@@ -123,7 +123,7 @@ new_bucket_url = r.json()["links"]["bucket"]
 The target URL is a combination of the bucket link with the desired filename
 seperated by a slash.
 '''
-files = sorted(Path("fia/parquet/").glob("*.zip"))
+files = sorted(Path("./").glob("*.zip"))
 print(files)
 headers = {
     "Content-Type": "application/octet-stream",
