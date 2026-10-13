@@ -7,7 +7,7 @@ library(nanoparquet)
 library(fs)
 
 # Data Download
-fia_download(states = state, keep_zip = FALSE)
+fia_download(states = state, keep_zip = TRUE)
 
 # Data prep
 db <- fia_load(states = state)
